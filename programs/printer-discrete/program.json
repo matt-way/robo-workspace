@@ -1,0 +1,54 @@
+{
+  "control": {
+    "running": true,
+    "resetting": false
+  },
+  "blockInstances": [
+    {
+      "id": "printer-bot-KrvFlOV13",
+      "type": "printer-bot",
+      "codeExpanded": true,
+      "memberOverrides": {
+        "eYj-O4lQm": {
+          "value": "position"
+        },
+        "TPxIgHGRL": {
+          "value": "motion"
+        }
+      }
+    },
+    {
+      "id": "graph-uU5zUBV8L",
+      "type": "graph",
+      "codeExpanded": true,
+      "memberOverrides": {
+        "MT-CMzdN-": {
+          "value": "graph"
+        },
+        "QC2MApAw0": {
+          "value": "position"
+        }
+      }
+    },
+    {
+      "id": "rl-discrete-d2GSKezKY",
+      "type": "rl-discrete",
+      "codeExpanded": false,
+      "memberOverrides": {
+        "nu8TggbJ0": {
+          "value": "motion"
+        }
+      }
+    },
+    {
+      "id": "graph-renderer-2d-Y_1h-7eXD",
+      "type": "graph-renderer-2d",
+      "codeExpanded": true,
+      "memberOverrides": {
+        "fRS7-fMvW": {
+          "value": "graph"
+        }
+      }
+    }
+  ]
+}
