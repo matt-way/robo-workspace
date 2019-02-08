@@ -1,26 +1,29 @@
 {
   "control": {
-    "running": true,
+    "running": false,
     "resetting": false
   },
   "blockInstances": [
     {
-      "id": "printer-bot-KrvFlOV13",
-      "type": "printer-bot",
-      "codeExpanded": true,
+      "id": "printer-dynamics-iFtno5mBV",
+      "type": "printer-dynamics",
+      "codeExpanded": false,
       "memberOverrides": {
-        "eYj-O4lQm": {
+        "0da-BfSTQ": {
           "value": "position"
         },
-        "TPxIgHGRL": {
+        "cQsVE1AW1": {
           "value": "motion"
+        },
+        "DDuPLdxb0": {
+          "value": "history"
         }
       }
     },
     {
       "id": "graph-uU5zUBV8L",
       "type": "graph",
-      "codeExpanded": true,
+      "codeExpanded": false,
       "memberOverrides": {
         "MT-CMzdN-": {
           "value": "graph"
@@ -37,6 +40,22 @@
       "memberOverrides": {
         "nu8TggbJ0": {
           "value": "motion"
+        }
+      }
+    },
+    {
+      "id": "printer-bot-KrvFlOV13",
+      "type": "printer-bot",
+      "codeExpanded": false,
+      "memberOverrides": {
+        "eYj-O4lQm": {
+          "value": "position"
+        },
+        "TPxIgHGRL": {
+          "value": "motion"
+        },
+        "pDmYXqqxJ": {
+          "value": "history"
         }
       }
     },

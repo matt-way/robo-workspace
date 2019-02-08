@@ -6,6 +6,6 @@ export const run = (state, { io }) => {
 
 export const update = (state, { io }) => {
   const { motion } = io
-	motion[0] = random(-1, 1, true) * 0.01
-  motion[1] = random(-1, 1, true) * 0.01
+	motion[0] = random(-1, 1, true) * 0.02
+  motion[1] = random(-1, 1, true) * 0.02
 }

@@ -13,9 +13,27 @@ export const update = (state, { io }) => {
   const size = 4
   const half = Math.floor(size / 2)
   
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  
   graph.forEachNode(function(node){
     const { feature } = node.data
+    const sx = feature[0] * canvas.width
+    const sy = feature[1] * canvas.height
+    
+    // draw the links
+    ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+    graph.forEachLinkedNode(node.id, function(linkedNode, link){
+      const tFeature = linkedNode.data.feature
+			const tx = tFeature[0] * canvas.width
+      const ty = tFeature[1] * canvas.height
+      
+      ctx.beginPath()
+			ctx.moveTo(sx, sy)
+			ctx.lineTo(tx, ty)
+			ctx.stroke()
+		})    
+    
     ctx.fillStyle = 'red'
-	  ctx.fillRect(feature[0] * canvas.width - half, feature[1] * canvas.height - half, size, size)
+	  ctx.fillRect(sx - half, sy - half, size, size)
 	})
 }

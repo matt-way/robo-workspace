@@ -1,0 +1,22 @@
+{
+  "name": "robo-workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-way/robo-workspace.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-way/robo-workspace/issues"
+  },
+  "homepage": "https://github.com/matt-way/robo-workspace#readme",
+  "dependencies": {
+    "ngraph.graph": "0.0.15"
+  }
+}

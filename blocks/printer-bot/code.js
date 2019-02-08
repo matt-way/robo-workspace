@@ -13,17 +13,11 @@ export const run = (state, { io, domRoot }) => {
   io.canvas.width = 300
   io.canvas.height = 300
   domRoot.appendChild(io.canvas)
-
-  io.position = [random(0, 1, true), random(0, 1, true)]
-  
-  io.history = []
-  io.historySize = 50
 }
 
 export const update = (state, { io }) => {
   const { 
-    canvas, ctx, position, motion, 
-    history, historySize
+    canvas, ctx, position, motion, history
   } = io
   const size = 4
   const half = Math.floor(size / 2)
@@ -34,15 +28,6 @@ export const update = (state, { io }) => {
   history.forEach(([x, y]) => {
   	ctx.fillRect(x * canvas.width - half, y * canvas.height - half, size, size)
   })
-     
-  // take the actuator values and update the system
-  position[0] += motion[0]
-  position[0] = Math.min(1, Math.max(0, position[0]))
-  position[1] += motion[1]
-  position[1] = Math.min(1, Math.max(0, position[1]))
-  
-  history.push([position[0], position[1]])
-  if(history.length > historySize){ history.shift() }
   
   ctx.fillStyle = 'red'
   ctx.fillRect(position[0] * canvas.width - half, position[1] * canvas.height - half, size, size)

@@ -2,21 +2,22 @@
   "source": "code.js",
   "members": [
     {
-      "id": "eYj-O4lQm",
+      "id": "0da-BfSTQ",
       "stateKey": "position",
       "type": "Link"
     },
     {
-      "id": "TPxIgHGRL",
+      "id": "cQsVE1AW1",
       "stateKey": "motion",
       "type": "Link"
     },
     {
-      "id": "pDmYXqqxJ",
+      "id": "DDuPLdxb0",
       "stateKey": "history",
       "type": "Link"
     }
   ],
   "codeExpanded": true,
-  "path": "/Users/mattway/workspaces/robo-workspace/blocks/printer-bot"
+  "path": "/Users/mattway/workspaces/robo-workspace/blocks/printer-dynamics",
+  "worker": false
 }
