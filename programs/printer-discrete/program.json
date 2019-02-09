@@ -7,7 +7,7 @@
     {
       "id": "printer-dynamics-iFtno5mBV",
       "type": "printer-dynamics",
-      "codeExpanded": false,
+      "codeExpanded": true,
       "memberOverrides": {
         "0da-BfSTQ": {
           "value": "position"
@@ -23,7 +23,7 @@
     {
       "id": "graph-uU5zUBV8L",
       "type": "graph",
-      "codeExpanded": false,
+      "codeExpanded": true,
       "memberOverrides": {
         "MT-CMzdN-": {
           "value": "graph"
@@ -36,7 +36,7 @@
     {
       "id": "rl-discrete-d2GSKezKY",
       "type": "rl-discrete",
-      "codeExpanded": false,
+      "codeExpanded": true,
       "memberOverrides": {
         "nu8TggbJ0": {
           "value": "motion"
@@ -62,7 +62,7 @@
     {
       "id": "graph-renderer-2d-Y_1h-7eXD",
       "type": "graph-renderer-2d",
-      "codeExpanded": true,
+      "codeExpanded": false,
       "memberOverrides": {
         "fRS7-fMvW": {
           "value": "graph"

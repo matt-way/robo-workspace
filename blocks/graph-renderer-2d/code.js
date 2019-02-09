@@ -21,16 +21,26 @@ export const update = (state, { io }) => {
     const sy = feature[1] * canvas.height
     
     // draw the links
+    /*var avgIncidence = 0    
+    graph.forEachLinkedNode(node.id, function(linkedNode, link){
+      avgIncidence += link.data.incidence
+    })
+    avgIncidence /= node.links.length
+    */
+    
     ctx.strokeStyle = 'rgba(0,0,0,0.5)'
     graph.forEachLinkedNode(node.id, function(linkedNode, link){
-      const tFeature = linkedNode.data.feature
-			const tx = tFeature[0] * canvas.width
-      const ty = tFeature[1] * canvas.height
-      
-      ctx.beginPath()
-			ctx.moveTo(sx, sy)
-			ctx.lineTo(tx, ty)
-			ctx.stroke()
+      // only draw useful links      
+      //if(link.data.incidence > 0.1 * avgIncidence){
+      	const tFeature = linkedNode.data.feature
+				const tx = tFeature[0] * canvas.width
+      	const ty = tFeature[1] * canvas.height
+	      
+	      ctx.beginPath()
+				ctx.moveTo(sx, sy)
+				ctx.lineTo(tx, ty)
+				ctx.stroke()
+      //}
 		})    
     
     ctx.fillStyle = 'red'
