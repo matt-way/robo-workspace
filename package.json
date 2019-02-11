@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/matt-way/robo-workspace#readme",
   "dependencies": {
-    "ngraph.graph": "0.0.15"
+    "ngraph.graph": "0.0.15",
+    "ngraph.path": "^1.0.3"
   }
 }

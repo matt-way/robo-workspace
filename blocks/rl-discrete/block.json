@@ -5,9 +5,19 @@
       "id": "nu8TggbJ0",
       "stateKey": "motion",
       "type": "Link"
+    },
+    {
+      "id": "fEqh13IxN",
+      "stateKey": "graph",
+      "type": "Link"
+    },
+    {
+      "id": "urtTyQYq7",
+      "stateKey": "input",
+      "type": "Link"
     }
   ],
   "codeExpanded": true,
   "path": "/media/matt/VolA/workspaces/robo/blocks/rl-discrete",
-  "worker": true
+  "worker": false
 }

@@ -9,14 +9,34 @@ const createFeature = pos => {
 export const run = (state, { io }) => {  
 	io.graph = createGraph()    
   io.graph.addNode(0, {
-    feature: createFeature(io.input)
+    feature: createFeature(io.input),
+    /*changeVector: new Float64Array(2),
+    transformVectors: [
+      new Float64Array(2),
+      new Float64Array(2)
+    ],
+    output: new Float64Array(2)*/
   })
   io.lastWinner = -1
+  io.lastInput = new Float64Array(io.input.length)
+  
+  io.changeVector = new Float64Array(2)
+  io.transformVectors = [
+    new Float64Array(2),
+    new Float64Array(2)
+  ]
+  io.output = new Float64Array(2)
+  
+  io.totalError = 0
 }
 
-export const update = (state, { io }) => {
-  const { graph, input } = io
+export const update = (state, { io, iteration }) => {
+  const { 
+    graph, input, motion,
+    changeVector, transformVectors, output
+  } = io
 	const learningRate = 0.001
+  const outputLearningRate = 0.01
   const splitDistance = 0.1
   
   // find the closest node
@@ -37,20 +57,72 @@ export const update = (state, { io }) => {
   
   const winner = graph.getNode(closestId)
   
+  // do motion learning
+  // calculate the change vector
+  /*const { changeVector, transformVectors, output } = winner.data 
+  for(var d=0; d<input.length; d++){
+  	changeVector[d] = input[d] - io.lastInput[d]
+  }
+  // calculate the current output transform      
+  output.fill(0)
+  for(var i=0; i<transformVectors.length; i++){
+    const f = transformVectors[i]
+    output[i] += changeVector[0] * f[0]
+    output[i] += changeVector[1] * f[1]    
+  }
+  // do feature learning
+  for(var i=0; i<transformVectors.length; i++){
+  	const f = transformVectors[i]
+    const err = motion[i] - output[i]
+    io.totalError += (err * err)
+    for(var j=0; j<f.length; j++){
+    	f[j] += Math.sign(changeVector[j]) * err * outputLearningRate
+    }
+  }
+  */
+  
+  // general vector graph motion
+  for(var d=0; d<input.length; d++){
+  	changeVector[d] = input[d] - io.lastInput[d]
+  }
+  output.fill(0)
+  for(var i=0; i<transformVectors.length; i++){
+    const f = transformVectors[i]
+    output[i] += changeVector[0] * f[0]
+    output[i] += changeVector[1] * f[1]    
+  }
+  for(var i=0; i<transformVectors.length; i++){
+  	const f = transformVectors[i]
+    const err = motion[i] - output[i]
+    io.totalError += (err * err)
+    for(var j=0; j<f.length; j++){
+    	f[j] += Math.sign(changeVector[j]) * err * outputLearningRate
+    }
+  }
+  
   // check if we need to create any new nodes in the graph
 	if(minDistance > splitDistance){
     const newId = graph.getNodesCount()
   	graph.addNode(newId, {
-      feature: createFeature(input)
+      feature: createFeature(input),
+      timeActive: 0
+			/*changeVector: new Float64Array(2),
+    	transformVectors: [
+      	new Float64Array(2),
+      	new Float64Array(2)
+    	],
+    	output: new Float64Array(2)*/
     })
     closestId = newId
   }
     
   // learn the feature
-  const { feature } = graph.getNode(closestId).data
+  const trueWinner = graph.getNode(closestId)
+  const { feature } = trueWinner.data
   for(var d=0; d<feature.length; d++){
   	feature[d] += (input[d] - feature[d]) * learningRate
   }
+  trueWinner.data.timeActive++
   
   // do edge incrementing
   if(io.lastWinner !== closestId){
@@ -67,4 +139,11 @@ export const update = (state, { io }) => {
                                  
     io.lastWinner = closestId
   }
+  
+  io.lastInput.set(input)
+  
+  /*if(iteration %1000 === 0){
+    console.log('avg error', io.totalError / 1000)
+    io.totalError = 0
+  }*/
 }

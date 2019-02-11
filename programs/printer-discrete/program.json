@@ -1,13 +1,13 @@
 {
   "control": {
-    "running": false,
+    "running": true,
     "resetting": false
   },
   "blockInstances": [
     {
       "id": "printer-dynamics-iFtno5mBV",
       "type": "printer-dynamics",
-      "codeExpanded": true,
+      "codeExpanded": false,
       "memberOverrides": {
         "0da-BfSTQ": {
           "value": "position"
@@ -30,6 +30,15 @@
         },
         "QC2MApAw0": {
           "value": "position"
+        },
+        "btIMrQnGk": {
+          "value": "motion"
+        },
+        "WIXbs5WWA": {
+          "value": "lastWinner"
+        },
+        "b81S-Cpg_": {
+          "value": "transformVectors"
         }
       }
     },
@@ -40,6 +49,12 @@
       "memberOverrides": {
         "nu8TggbJ0": {
           "value": "motion"
+        },
+        "fEqh13IxN": {
+          "value": "graph"
+        },
+        "urtTyQYq7": {
+          "value": "position"
         }
       }
     },

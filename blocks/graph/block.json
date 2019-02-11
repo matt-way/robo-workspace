@@ -10,9 +10,24 @@
       "id": "QC2MApAw0",
       "stateKey": "input",
       "type": "Link"
+    },
+    {
+      "id": "btIMrQnGk",
+      "stateKey": "motion",
+      "type": "Link"
+    },
+    {
+      "id": "WIXbs5WWA",
+      "stateKey": "lastWinner",
+      "type": "Link"
+    },
+    {
+      "id": "b81S-Cpg_",
+      "stateKey": "transformVectors",
+      "type": "Link"
     }
   ],
   "codeExpanded": true,
   "path": "/media/matt/VolA/workspaces/robo/blocks/graph",
-  "worker": true
+  "worker": false
 }
