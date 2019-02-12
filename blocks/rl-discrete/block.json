@@ -15,9 +15,19 @@
       "id": "urtTyQYq7",
       "stateKey": "input",
       "type": "Link"
+    },
+    {
+      "id": "_AwqXPRVo",
+      "stateKey": "randomMove",
+      "type": "Link"
+    },
+    {
+      "id": "xvrFmrKAV",
+      "stateKey": "moveVector",
+      "type": "Link"
     }
   ],
   "codeExpanded": true,
   "path": "/media/matt/VolA/workspaces/robo/blocks/rl-discrete",
-  "worker": false
+  "worker": true
 }

@@ -10,6 +10,7 @@ export const run = (state, { io }) => {
 	io.graph = createGraph()    
   io.graph.addNode(0, {
     feature: createFeature(io.input),
+    timeSinceDiscovery: 0
     /*changeVector: new Float64Array(2),
     transformVectors: [
       new Float64Array(2),
@@ -22,12 +23,13 @@ export const run = (state, { io }) => {
   
   io.changeVector = new Float64Array(2)
   io.transformVectors = [
-    new Float64Array(2),
-    new Float64Array(2)
+    new Float64Array([1, 1]),
+    new Float64Array([1, 1])
   ]
   io.output = new Float64Array(2)
   
   io.totalError = 0
+  io.lastError = Number.MAX_VALUE
 }
 
 export const update = (state, { io, iteration }) => {
@@ -36,7 +38,7 @@ export const update = (state, { io, iteration }) => {
     changeVector, transformVectors, output
   } = io
 	const learningRate = 0.001
-  const outputLearningRate = 0.01
+  const outputLearningRate = 0.05
   const splitDistance = 0.1
   
   // find the closest node
@@ -81,7 +83,7 @@ export const update = (state, { io, iteration }) => {
   }
   */
   
-  // general vector graph motion
+  // only learn motion in exploratory mode
   for(var d=0; d<input.length; d++){
   	changeVector[d] = input[d] - io.lastInput[d]
   }
@@ -91,21 +93,23 @@ export const update = (state, { io, iteration }) => {
     output[i] += changeVector[0] * f[0]
     output[i] += changeVector[1] * f[1]    
   }
+  io.lastError = 0
   for(var i=0; i<transformVectors.length; i++){
-  	const f = transformVectors[i]
+    const f = transformVectors[i]
     const err = motion[i] - output[i]
     io.totalError += (err * err)
+    io.lastError += err * err
     for(var j=0; j<f.length; j++){
-    	f[j] += Math.sign(changeVector[j]) * err * outputLearningRate
+      f[j] += Math.sign(changeVector[j]) * err * outputLearningRate
     }
-  }
-  
+  }  
+   
   // check if we need to create any new nodes in the graph
 	if(minDistance > splitDistance){
     const newId = graph.getNodesCount()
   	graph.addNode(newId, {
       feature: createFeature(input),
-      timeActive: 0
+      timeSinceDiscovery: 0
 			/*changeVector: new Float64Array(2),
     	transformVectors: [
       	new Float64Array(2),
@@ -122,7 +126,7 @@ export const update = (state, { io, iteration }) => {
   for(var d=0; d<feature.length; d++){
   	feature[d] += (input[d] - feature[d]) * learningRate
   }
-  trueWinner.data.timeActive++
+  trueWinner.data.timeSinceDiscovery++
   
   // do edge incrementing
   if(io.lastWinner !== closestId){
@@ -134,6 +138,7 @@ export const update = (state, { io, iteration }) => {
         graph.addLink(io.lastWinner, closestId, {
           incidence: 1
         })
+        graph.getNode(io.lastWinner).data.timeSinceDiscovery = 0
       }
     }                                 
                                  
@@ -142,8 +147,8 @@ export const update = (state, { io, iteration }) => {
   
   io.lastInput.set(input)
   
-  /*if(iteration %1000 === 0){
-    console.log('avg error', io.totalError / 1000)
+  /*if(iteration %200 === 0){
+    console.log('avg error', io.totalError / 200)
     io.totalError = 0
   }*/
 }

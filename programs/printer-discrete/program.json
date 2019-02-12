@@ -39,6 +39,9 @@
         },
         "b81S-Cpg_": {
           "value": "transformVectors"
+        },
+        "Tyw1BXPgF": {
+          "value": "currentError"
         }
       }
     },
@@ -55,6 +58,12 @@
         },
         "urtTyQYq7": {
           "value": "position"
+        },
+        "_AwqXPRVo": {
+          "value": "randomMove"
+        },
+        "xvrFmrKAV": {
+          "value": "moveVector"
         }
       }
     },

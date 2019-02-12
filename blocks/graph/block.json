@@ -25,9 +25,14 @@
       "id": "b81S-Cpg_",
       "stateKey": "transformVectors",
       "type": "Link"
+    },
+    {
+      "id": "Tyw1BXPgF",
+      "stateKey": "lastError",
+      "type": "Link"
     }
   ],
   "codeExpanded": true,
   "path": "/media/matt/VolA/workspaces/robo/blocks/graph",
-  "worker": false
+  "worker": true
 }
