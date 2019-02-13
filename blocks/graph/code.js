@@ -1,4 +1,5 @@
 import createGraph from 'ngraph.graph'
+import { random } from 'lodash'
 
 const createFeature = pos => {
   const f = new Float64Array(pos.length)
@@ -10,7 +11,7 @@ export const run = (state, { io }) => {
 	io.graph = createGraph()    
   io.graph.addNode(0, {
     feature: createFeature(io.input),
-    timeSinceDiscovery: 0
+    timesActive: 0
     /*changeVector: new Float64Array(2),
     transformVectors: [
       new Float64Array(2),
@@ -23,8 +24,8 @@ export const run = (state, { io }) => {
   
   io.changeVector = new Float64Array(2)
   io.transformVectors = [
-    new Float64Array([1, 1]),
-    new Float64Array([1, 1])
+    new Float64Array([10, 1]),
+    new Float64Array([1, 10])
   ]
   io.output = new Float64Array(2)
   
@@ -109,7 +110,7 @@ export const update = (state, { io, iteration }) => {
     const newId = graph.getNodesCount()
   	graph.addNode(newId, {
       feature: createFeature(input),
-      timeSinceDiscovery: 0
+      timesActive: 0
 			/*changeVector: new Float64Array(2),
     	transformVectors: [
       	new Float64Array(2),
@@ -126,8 +127,7 @@ export const update = (state, { io, iteration }) => {
   for(var d=0; d<feature.length; d++){
   	feature[d] += (input[d] - feature[d]) * learningRate
   }
-  trueWinner.data.timeSinceDiscovery++
-  
+    
   // do edge incrementing
   if(io.lastWinner !== closestId){
     if(io.lastWinner >= 0){
@@ -137,11 +137,10 @@ export const update = (state, { io, iteration }) => {
       }else{
         graph.addLink(io.lastWinner, closestId, {
           incidence: 1
-        })
-        graph.getNode(io.lastWinner).data.timeSinceDiscovery = 0
+        })        
       }
-    }                                 
-                                 
+      graph.getNode(io.lastWinner).data.timesActive++
+    }
     io.lastWinner = closestId
   }
   

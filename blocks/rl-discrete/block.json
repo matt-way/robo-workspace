@@ -25,9 +25,29 @@
       "id": "xvrFmrKAV",
       "stateKey": "moveVector",
       "type": "Link"
+    },
+    {
+      "id": "COfMyblbf",
+      "stateKey": "randomTargets",
+      "type": "Link"
+    },
+    {
+      "id": "3aP4yKIj7",
+      "stateKey": "randomChoice",
+      "type": "Link"
+    },
+    {
+      "id": "DLfrcU5Jf",
+      "stateKey": "mode",
+      "type": "Link"
+    },
+    {
+      "id": "dgh51dkQ4",
+      "stateKey": "globalTarget",
+      "type": "Link"
     }
   ],
   "codeExpanded": true,
   "path": "/media/matt/VolA/workspaces/robo/blocks/rl-discrete",
-  "worker": true
+  "worker": false
 }

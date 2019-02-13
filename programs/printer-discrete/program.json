@@ -1,6 +1,6 @@
 {
   "control": {
-    "running": true,
+    "running": false,
     "resetting": false
   },
   "blockInstances": [
@@ -64,6 +64,18 @@
         },
         "xvrFmrKAV": {
           "value": "moveVector"
+        },
+        "COfMyblbf": {
+          "value": "randomTargets"
+        },
+        "3aP4yKIj7": {
+          "value": "randomChoice"
+        },
+        "DLfrcU5Jf": {
+          "value": "mode"
+        },
+        "dgh51dkQ4": {
+          "value": "globalTarget"
         }
       }
     },
@@ -86,7 +98,7 @@
     {
       "id": "graph-renderer-2d-Y_1h-7eXD",
       "type": "graph-renderer-2d",
-      "codeExpanded": false,
+      "codeExpanded": true,
       "memberOverrides": {
         "fRS7-fMvW": {
           "value": "graph"

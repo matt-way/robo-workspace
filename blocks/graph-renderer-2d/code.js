@@ -43,7 +43,48 @@ export const update = (state, { io }) => {
       //}
 		})    
     
-    ctx.fillStyle = 'red'
+    if(state.globalTarget === node.id){
+      ctx.fillStyle = 'blue'
+    }else if(state.lastWinner === node.id){
+      ctx.fillStyle = 'red'
+    }else{
+    	ctx.fillStyle = 'green'  
+    }    
 	  ctx.fillRect(sx - half, sy - half, size, size)
+                
+    ctx.fillStyle = 'blue'
+    const { position, randomTargets, randomChoice } = state
+    const px = position[0]
+    const py = position[1]
+    const pxc = px * canvas.width
+    const pyc = py * canvas.height
+    ctx.fillRect(pxc - half,pyc - half, size, size)
+    
+    if(state.mode === 'explore'){
+      
+      for(var v=0; v<randomTargets.length; v++){
+        const t = randomTargets[v]
+        const vx = t[0] * 10
+        const vy = t[1] * 10
+
+        ctx.strokeStyle = 'grey'    
+        ctx.beginPath()
+        ctx.moveTo(pxc, pyc)
+        ctx.lineTo((px + vx) * canvas.width, (py + vy) * canvas.height)
+        ctx.stroke()    
+      }
+
+      const t = randomChoice
+      if(t){
+      	const vx = t[0] * 10
+      	const vy = t[1] * 10
+
+      	ctx.strokeStyle = 'pink'    
+      	ctx.beginPath()
+      	ctx.moveTo(pxc, pyc)
+      	ctx.lineTo((px + vx) * canvas.width, (py + vy) * canvas.height)
+      	ctx.stroke()                    
+      }
+    }
 	})
 }
