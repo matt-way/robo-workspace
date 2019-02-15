@@ -1,6 +1,6 @@
 {
   "control": {
-    "running": false,
+    "running": true,
     "resetting": false
   },
   "blockInstances": [

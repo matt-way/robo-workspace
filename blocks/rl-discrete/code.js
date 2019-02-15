@@ -14,8 +14,8 @@ export const run = (state, { io }) => {
   
   io.randomTargets = [
     new Float64Array(2),
-    //new Float64Array(2),
-    //new Float64Array(2),
+    new Float64Array(2),
+    new Float64Array(2),
     //new Float64Array(2),
     /*new Float64Array(2),
     new Float64Array(2),
