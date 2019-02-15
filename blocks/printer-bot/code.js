@@ -15,7 +15,7 @@ export const run = (state, { io, domRoot }) => {
   domRoot.appendChild(io.canvas)
 }
 
-export const update = (state, { io }) => {
+export const update = (state, { io, iteration }) => {
   const { 
     canvas, ctx, position, motion, history
   } = io
@@ -35,4 +35,5 @@ export const update = (state, { io }) => {
   ctx.fillStyle = 'rgba(0,0,0,0.5)'  
   ctx.fillText(`x: ${position[0].toFixed(2)} y: ${position[1].toFixed(2)}`, 6, 15)
   ctx.fillText(`dx: ${negFixed(motion[0], 2)} dy: ${negFixed(motion[1], 2)}`, 6, 30)
+  ctx.fillText(`iteration: ${iteration}`, 6, 45)
 }

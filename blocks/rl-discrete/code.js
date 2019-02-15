@@ -16,16 +16,17 @@ export const run = (state, { io }) => {
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
-    //new Float64Array(2),
+    new Float64Array(2),
+    new Float64Array(2),
+    new Float64Array(2),
     /*new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2)*/
   ]
   
   io.stagnantCount = 0
+  io.lastGraphSize = io.graph.getNodesCount()
   io.currentIndex = -1
   io.mode = 'explore'
 }
@@ -34,7 +35,136 @@ export const update = (state, { io, iteration }) => {
   const { input, graph, pathfinder, motion, moveVector } = io
   
   const speed = 0.01 
-  const minExploreTime = 1000
+  const maxExploreStagnation = 100
+  const maxGlobalStagnation = 500
+  const enforce = true
+  io.globalTarget = 6
+  
+  if(io.mode === 'global' || enforce){
+    
+    // work out the best path
+    const targetPath = io.pathFinder.find(state.lastWinner, io.globalTarget)
+    if(targetPath.length > 1){      
+      io.localGoalIndex = targetPath[targetPath.length - 2]
+      const node = graph.getNode(io.localGoalIndex.id)
+      const tLoc = node.data.feature
+
+      // work out the desired vector from where we are to the local target
+      moveVector.fill(0)
+      for(var d=0; d<input.length; d++){
+        moveVector[d] = tLoc[d] - input[d]
+      }
+      // scale the vector to the required speed length
+      moveVector.normalise(speed)
+      io.randomMove = false
+      // set the next output
+      motion.fill(0)
+      for(var i=0; i<state.transformVectors.length; i++){
+        const f = state.transformVectors[i]
+        motion[i] += moveVector[0] * f[0]
+        motion[i] += moveVector[1] * f[1]    
+      }     
+    }
+    
+    io.stagnantCount++  
+    
+    if(state.lastWinner === io.globalTarget ||
+       io.stagnantCount > maxGlobalStagnation){
+      io.mode = 'explore'
+      io.stagnantCount = 0
+    }
+
+  }else if(io.mode === 'explore'){
+    
+    if(io.lastGraphSize !== graph.getLinksCount()){
+    	io.stagnantCount = 0  
+      io.lastGraphSize = graph.getLinksCount()
+    }
+    
+    if(state.lastWinner !== io.currentIndex){  
+    	const tempPos = new Float64Array(2)
+    	var bestVector = io.randomTargets[0]
+      var bestDistance = 0
+
+      // generate set of random target vectors
+      const curNode = graph.getNode(state.lastWinner)
+      io.randomTargets.forEach(t => {
+        t[0] = random(-1, 1, true) 
+        t[1] = random(-1, 1, true) 
+        t.normalise(speed)
+
+        var minDistance = Number.MAX_VALUE
+        var idHash = {}
+        graph.forEachLinkedNode(state.lastWinner, function(linkedNode, link){
+          if(!idHash[linkedNode.id]){
+            
+            // 
+            tempPos.set(linkedNode.data.feature)
+            tempPos.subtract(curNode.data.feature)
+            tempPos.normalise(speed)
+            
+            
+            //tempPos.set(input)
+            //tempPos.set(curNode.data.feature)
+            //tempPos.add(t)
+            //const dist = tempPos.distance(linkedNode.data.feature)
+            const dist = t.distance(tempPos)
+            if(dist < minDistance){
+              minDistance = dist
+            }
+            idHash[linkedNode.id] = true
+          }
+        })
+
+        if(minDistance > bestDistance){
+          bestDistance = minDistance
+          bestVector = t
+        }
+      })
+
+      io.randomChoice = bestVector
+      moveVector.set(bestVector)
+
+      // generate output based on the target vector
+      motion.fill(0)
+      for(var i=0; i<state.transformVectors.length; i++){
+        const f = state.transformVectors[i]
+        motion[i] += moveVector[0] * f[0]
+        motion[i] += moveVector[1] * f[1]    
+      } 
+
+      io.currentIndex = state.lastWinner
+    }
+    
+    io.stagnantCount++
+    
+    if(io.stagnantCount > maxExploreStagnation){
+    	// choose a new global node to move to before exploring again
+      var smallest = Number.MAX_VALUE
+      var bestNodes = []
+      graph.forEachNode(node => {
+        if(node.id !== state.lastWinner){
+          if(node.data.timesActive < smallest){
+            smallest = node.data.timesActive
+            bestNodes = [node.id]
+          }else if(node.data.timesActive === smallest){
+            bestNodes.push(node.id)
+          }
+        }
+      })
+      const choice = bestNodes[random(0, bestNodes.length - 1)]
+      if(choice >= 0){
+	      io.globalTarget = choice    
+	      io.mode = 'global'  	    
+      }else{
+        io.currentIndex = -1
+      }
+      io.stagnantCount = 0
+    }
+  }
+  
+  
+  /*
   
   if(io.mode === 'global'){
     
@@ -88,17 +218,24 @@ export const update = (state, { io, iteration }) => {
   }
   
   var smallest = Number.MAX_VALUE
-  var bestNode = 0
+  var bestNodes = []
 	graph.forEachNode(node => {
-    if(node.data.timesActive < smallest && node.id !== state.lastWinner){
-     	bestNode = node.id
-     	smallest = node.data.timesActive
-    }
+    if(node.id !== state.lastWinner){
+    	if(node.data.timesActive < smallest){
+        smallest = node.data.timesActive
+        bestNodes = [node.id]
+      }else if(node.data.timesActive === smallest){
+        bestNodes.push(node.id)
+      }
+    }    
   })
-  io.globalTarget = bestNode
+  const choice = bestNodes[random(0, bestNodes.length - 1)]
+  io.globalTarget = choice
   
   
   
+  
+  */
   /*
   //if(iteration % 5000 === 0){ debugger }
       

@@ -2,21 +2,22 @@
   "source": "code.js",
   "members": [
     {
-      "id": "eYj-O4lQm",
+      "id": "AU1huNP6d",
       "stateKey": "position",
       "type": "Link"
     },
     {
-      "id": "TPxIgHGRL",
+      "id": "Q78lm_7a2",
       "stateKey": "motion",
       "type": "Link"
     },
     {
-      "id": "pDmYXqqxJ",
+      "id": "VFKktYXWr",
       "stateKey": "history",
       "type": "Link"
     }
   ],
   "codeExpanded": true,
-  "path": "/Users/mattway/workspaces/robo-workspace/blocks/printer-bot"
+  "path": "/Users/mattway/workspaces/robo-workspace/blocks/arm-dynamics",
+  "worker": false
 }
