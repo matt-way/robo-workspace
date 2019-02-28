@@ -1,169 +1,170 @@
 import { random } from 'lodash'
 import path from 'ngraph.path'
-import '../../common/typed-array-funcs'
 
-export const run = (state, { io }) => {
-  io.motion = [0.5, 0.5]  
-  io.globalTarget = 0
-  io.goalTime = 0
-  io.pathFinder = path.aStar(io.graph, {
+export const run = ({ state }) => {
+  state.motion = [0.5, 0.5]
+  state.globalTarget = 0
+  state.goalTime = 0
+  state.pathFinder = path.aStar(state.graph, {
     oriented: false
   })
-  io.moveVector = new Float64Array(2)
-  io.randomMove = true
-  
-  io.randomTargets = [
+  state.moveVector = new Float64Array(2)
+  state.randomMove = true
+
+  state.randomTargets = [
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
-    new Float64Array(2),
+    new Float64Array(2)
     /*new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2),
     new Float64Array(2)*/
   ]
-  
-  io.stagnantCount = 0
-  io.lastGraphSize = io.graph.getNodesCount()
-  io.currentIndex = -1
-  io.mode = 'explore'
+
+  state.stagnantCount = 0
+  state.lastGraphSize = state.graph.getNodesCount()
+  state.currentIndex = -1
+  state.mode = 'explore'
 }
 
-export const update = (state, { io, iteration }) => {
-  const { input, graph, pathfinder, motion, moveVector } = io
-  
-  const speed = 0.01 
+export const update = ({ state, iteration }) => {
+  const { input, graph, pathfinder, motion, moveVector } = state
+
+  const speed = 0.01
   const maxExploreStagnation = 100
   const maxGlobalStagnation = 500
-  const enforce = true
-  io.globalTarget = 6
-  
-  if(io.mode === 'global' || enforce){
-    
+  const enforce = false
+  //io.globalTarget = 60
+
+  if (state.mode === 'global' || enforce) {
     // work out the best path
-    const targetPath = io.pathFinder.find(state.lastWinner, io.globalTarget)
-    if(targetPath.length > 1){      
-      io.localGoalIndex = targetPath[targetPath.length - 2]
-      const node = graph.getNode(io.localGoalIndex.id)
+    const targetPath = state.pathFinder.find(
+      state.lastWinner,
+      state.globalTarget
+    )
+    if (targetPath.length > 0) {
+      state.localGoalIndex =
+        targetPath.length > 1
+          ? targetPath[targetPath.length - 2]
+          : targetPath[0]
+      const node = graph.getNode(state.localGoalIndex.id)
       const tLoc = node.data.feature
 
       // work out the desired vector from where we are to the local target
       moveVector.fill(0)
-      for(var d=0; d<input.length; d++){
+      for (var d = 0; d < input.length; d++) {
         moveVector[d] = tLoc[d] - input[d]
       }
       // scale the vector to the required speed length
       moveVector.normalise(speed)
-      io.randomMove = false
+      state.randomMove = false
       // set the next output
       motion.fill(0)
-      for(var i=0; i<state.transformVectors.length; i++){
+      for (var i = 0; i < state.transformVectors.length; i++) {
         const f = state.transformVectors[i]
         motion[i] += moveVector[0] * f[0]
-        motion[i] += moveVector[1] * f[1]    
-      }     
-    }
-    
-    io.stagnantCount++  
-    
-    if(state.lastWinner === io.globalTarget ||
-       io.stagnantCount > maxGlobalStagnation){
-      io.mode = 'explore'
-      io.stagnantCount = 0
+        motion[i] += moveVector[1] * f[1]
+      }
     }
 
-  }else if(io.mode === 'explore'){
-    
-    if(io.lastGraphSize !== graph.getLinksCount()){
-    	io.stagnantCount = 0  
-      io.lastGraphSize = graph.getLinksCount()
+    state.stagnantCount++
+
+    if (
+      state.lastWinner === state.globalTarget ||
+      state.stagnantCount > maxGlobalStagnation
+    ) {
+      state.mode = 'explore'
+      state.stagnantCount = 0
     }
-    
-    if(state.lastWinner !== io.currentIndex){  
-    	const tempPos = new Float64Array(2)
-    	var bestVector = io.randomTargets[0]
+  } else if (state.mode === 'explore') {
+    if (state.lastGraphSize !== graph.getLinksCount()) {
+      state.stagnantCount = 0
+      state.lastGraphSize = graph.getLinksCount()
+    }
+
+    if (state.lastWinner !== state.currentIndex) {
+      const tempPos = new Float64Array(2)
+      var bestVector = state.randomTargets[0]
       var bestDistance = 0
 
       // generate set of random target vectors
       const curNode = graph.getNode(state.lastWinner)
-      io.randomTargets.forEach(t => {
-        t[0] = random(-1, 1, true) 
-        t[1] = random(-1, 1, true) 
+      state.randomTargets.forEach(t => {
+        t[0] = random(-1, 1, true)
+        t[1] = random(-1, 1, true)
         t.normalise(speed)
 
         var minDistance = Number.MAX_VALUE
         var idHash = {}
-        graph.forEachLinkedNode(state.lastWinner, function(linkedNode, link){
-          if(!idHash[linkedNode.id]){
-            
-            // 
+        graph.forEachLinkedNode(state.lastWinner, function(linkedNode, link) {
+          if (!idHash[linkedNode.id]) {
+            //
             tempPos.set(linkedNode.data.feature)
             tempPos.subtract(curNode.data.feature)
             tempPos.normalise(speed)
-            
-            
+
             //tempPos.set(input)
             //tempPos.set(curNode.data.feature)
             //tempPos.add(t)
             //const dist = tempPos.distance(linkedNode.data.feature)
             const dist = t.distance(tempPos)
-            if(dist < minDistance){
+            if (dist < minDistance) {
               minDistance = dist
             }
             idHash[linkedNode.id] = true
           }
         })
 
-        if(minDistance > bestDistance){
+        if (minDistance > bestDistance) {
           bestDistance = minDistance
           bestVector = t
         }
       })
 
-      io.randomChoice = bestVector
+      state.randomChoice = bestVector
       moveVector.set(bestVector)
 
       // generate output based on the target vector
       motion.fill(0)
-      for(var i=0; i<state.transformVectors.length; i++){
+      for (var i = 0; i < state.transformVectors.length; i++) {
         const f = state.transformVectors[i]
         motion[i] += moveVector[0] * f[0]
-        motion[i] += moveVector[1] * f[1]    
-      } 
+        motion[i] += moveVector[1] * f[1]
+      }
 
-      io.currentIndex = state.lastWinner
+      state.currentIndex = state.lastWinner
     }
-    
-    io.stagnantCount++
-    
-    if(io.stagnantCount > maxExploreStagnation){
-    	// choose a new global node to move to before exploring again
+
+    state.stagnantCount++
+
+    if (state.stagnantCount > maxExploreStagnation) {
+      // choose a new global node to move to before exploring again
       var smallest = Number.MAX_VALUE
       var bestNodes = []
       graph.forEachNode(node => {
-        if(node.id !== state.lastWinner){
-          if(node.data.timesActive < smallest){
+        if (node.id !== state.lastWinner) {
+          if (node.data.timesActive < smallest) {
             smallest = node.data.timesActive
             bestNodes = [node.id]
-          }else if(node.data.timesActive === smallest){
+          } else if (node.data.timesActive === smallest) {
             bestNodes.push(node.id)
           }
         }
       })
       const choice = bestNodes[random(0, bestNodes.length - 1)]
-      if(choice >= 0){
-	      io.globalTarget = choice    
-	      io.mode = 'global'  	    
-      }else{
-        io.currentIndex = -1
+      if (choice >= 0) {
+        state.globalTarget = choice
+        state.mode = 'global'
+      } else {
+        state.currentIndex = -1
       }
-      io.stagnantCount = 0
+      state.stagnantCount = 0
     }
   }
-  
-  
+
   /*
   
   if(io.mode === 'global'){
@@ -336,9 +337,9 @@ export const update = (state, { io, iteration }) => {
     }
   }
   */
-  
+
   // force random until movement error is ok
-  //if(state.currentError > 0.2){    
+  //if(state.currentError > 0.2){
   /*if(iteration < 20000){
     motion[0] = random(-1, 1, true)
   	motion[1] = random(-1, 1, true)
@@ -394,7 +395,7 @@ export const update = (state, { io, iteration }) => {
       }
     }
   }*/
-  
+
   /*
   if(state.lastWinner === io.globalTarget){
   	if(io.goalTime > maxGoalTime){
@@ -490,5 +491,4 @@ export const update = (state, { io, iteration }) => {
     }    
   } 
   */
-  
 }

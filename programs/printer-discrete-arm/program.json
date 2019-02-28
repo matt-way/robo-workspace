@@ -1,107 +1,122 @@
 {
-  "control": {
-    "running": true,
-    "resetting": false
-  },
   "blockInstances": [
     {
-      "id": "arm-dynamics-wckAApChK",
-      "type": "arm-dynamics",
+      "id": "arm-dynamics",
       "codeExpanded": false,
       "memberOverrides": {
-        "AU1huNP6d": {
+        "position": {
           "value": "position"
         },
-        "Q78lm_7a2": {
+        "motion": {
           "value": "motion"
         },
-        "VFKktYXWr": {
+        "history": {
           "value": "history"
         }
       }
     },
     {
-      "id": "graph-uU5zUBV8L",
-      "type": "graph",
-      "codeExpanded": false,
+      "id": "graph",
+      "codeExpanded": true,
       "memberOverrides": {
-        "MT-CMzdN-": {
+        "graph": {
           "value": "graph"
         },
-        "QC2MApAw0": {
+        "input": {
           "value": "position"
         },
-        "btIMrQnGk": {
+        "motion": {
           "value": "motion"
         },
-        "WIXbs5WWA": {
+        "lastWinner": {
           "value": "lastWinner"
         },
-        "b81S-Cpg_": {
+        "transformVectors": {
           "value": "transformVectors"
         },
-        "Tyw1BXPgF": {
+        "lastError": {
           "value": "currentError"
         }
       }
     },
     {
-      "id": "rl-discrete-d2GSKezKY",
-      "type": "rl-discrete",
+      "id": "rl-discrete",
       "codeExpanded": true,
       "memberOverrides": {
-        "nu8TggbJ0": {
+        "motion": {
           "value": "motion"
         },
-        "fEqh13IxN": {
+        "graph": {
           "value": "graph"
         },
-        "urtTyQYq7": {
+        "input": {
           "value": "position"
         },
-        "_AwqXPRVo": {
+        "randomMove": {
           "value": "randomMove"
         },
-        "xvrFmrKAV": {
+        "moveVector": {
           "value": "moveVector"
         },
-        "COfMyblbf": {
+        "randomTargets": {
           "value": "randomTargets"
         },
-        "3aP4yKIj7": {
+        "randomChoice": {
           "value": "randomChoice"
         },
-        "DLfrcU5Jf": {
+        "mode": {
           "value": "mode"
         },
-        "dgh51dkQ4": {
+        "globalTarget": {
           "value": "globalTarget"
+        },
+        "lastWinner": {
+          "value": "lastWinner"
+        },
+        "transformVectors": {
+          "value": "transformVectors"
         }
       }
     },
     {
-      "id": "arm-renderer-RwBDMgXOV",
-      "type": "arm-renderer",
-      "codeExpanded": true,
+      "id": "arm-renderer",
+      "codeExpanded": false,
       "memberOverrides": {
-        "RkZaCMAx3": {
+        "position": {
           "value": "position"
         },
-        "6MRQbpiRA": {
+        "motion": {
           "value": "motion"
         },
-        "XM82sij90": {
+        "history": {
           "value": "history"
         }
       }
     },
     {
-      "id": "graph-renderer-2d-Y_1h-7eXD",
-      "type": "graph-renderer-2d",
-      "codeExpanded": false,
+      "id": "graph-renderer-2d",
+      "codeExpanded": true,
       "memberOverrides": {
-        "fRS7-fMvW": {
+        "graph": {
           "value": "graph"
+        },
+        "position": {
+          "value": "position"
+        },
+        "randomTargets": {
+          "value": "randomTargets"
+        },
+        "randomChoice": {
+          "value": "randomChoice"
+        },
+        "mode": {
+          "value": "mode"
+        },
+        "globalTargets": {
+          "value": "globalTarget"
+        },
+        "lastWinner": {
+          "value": "lastWinner"
         }
       }
     }

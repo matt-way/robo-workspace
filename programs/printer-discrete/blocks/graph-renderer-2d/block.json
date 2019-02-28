@@ -1,0 +1,33 @@
+{
+  "source": "code.js",
+  "members": [
+    {
+      "id": "graph",
+      "type": "Link"
+    },
+    {
+      "id": "position",
+      "type": "Link"
+    },
+    {
+      "id": "randomTargets",
+      "type": "Link"
+    },
+    {
+      "id": "randomChoice",
+      "type": "Link"
+    },
+    {
+      "id": "mode",
+      "type": "Link"
+    },
+    {
+      "id": "globalTarget",
+      "type": "Link"
+    },
+    {
+      "id": "lastWinner",
+      "type": "Link"
+    }
+  ]
+}

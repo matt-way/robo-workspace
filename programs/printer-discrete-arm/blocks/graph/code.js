@@ -7,11 +7,11 @@ const createFeature = pos => {
   return f
 }
 
-export const run = (state, { io }) => {  
-	io.graph = createGraph()    
-  io.graph.addNode(0, {
-    feature: createFeature(io.input),
-    timesActive: 0
+export const run = ({ state }) => {
+	state.graph = createGraph()    
+  state.graph.addNode(0, {
+    feature: createFeature(state.input),
+    timesActive: 1
     /*changeVector: new Float64Array(2),
     transformVectors: [
       new Float64Array(2),
@@ -19,25 +19,25 @@ export const run = (state, { io }) => {
     ],
     output: new Float64Array(2)*/
   })
-  io.lastWinner = -1
-  io.lastInput = new Float64Array(io.input.length)
+  state.lastWinner = -1
+  state.lastInput = new Float64Array(state.input.length)
   
-  io.changeVector = new Float64Array(2)
-  io.transformVectors = [
+  state.changeVector = new Float64Array(2)
+  state.transformVectors = [
     new Float64Array([10, 1]),
     new Float64Array([1, 10])
   ]
-  io.output = new Float64Array(2)
+  state.output = new Float64Array(2)
   
-  io.totalError = 0
-  io.lastError = Number.MAX_VALUE
+  state.totalError = 0
+  state.lastError = Number.MAX_VALUE
 }
 
-export const update = (state, { io, iteration }) => {
+export const update = ({ state, iteration }) => {
   const { 
     graph, input, motion,
     changeVector, transformVectors, output
-  } = io
+  } = state
 	const learningRate = 0.001
   const outputLearningRate = 0.05
   const splitDistance = 0.1
@@ -86,7 +86,7 @@ export const update = (state, { io, iteration }) => {
   
   // only learn motion in exploratory mode
   for(var d=0; d<input.length; d++){
-  	changeVector[d] = input[d] - io.lastInput[d]
+  	changeVector[d] = input[d] - state.lastInput[d]
   }
   output.fill(0)
   for(var i=0; i<transformVectors.length; i++){
@@ -94,12 +94,12 @@ export const update = (state, { io, iteration }) => {
     output[i] += changeVector[0] * f[0]
     output[i] += changeVector[1] * f[1]    
   }
-  io.lastError = 0
+  state.lastError = 0
   for(var i=0; i<transformVectors.length; i++){
     const f = transformVectors[i]
     const err = motion[i] - output[i]
-    io.totalError += (err * err)
-    io.lastError += err * err
+    state.totalError += (err * err)
+    state.lastError += err * err
     for(var j=0; j<f.length; j++){
       f[j] += Math.sign(changeVector[j]) * err * outputLearningRate
     }
@@ -129,22 +129,22 @@ export const update = (state, { io, iteration }) => {
   }
     
   // do edge incrementing
-  if(io.lastWinner !== closestId){
-    if(io.lastWinner >= 0){
-      const link = graph.getLink(io.lastWinner, closestId)
+  if(state.lastWinner !== closestId){
+    if(state.lastWinner >= 0){
+      const link = graph.getLink(state.lastWinner, closestId)
       if(link){
         link.data.incidence++
       }else{
-        graph.addLink(io.lastWinner, closestId, {
+        graph.addLink(state.lastWinner, closestId, {
           incidence: 1
         })        
       }
-      graph.getNode(io.lastWinner).data.timesActive++
+      graph.getNode(state.lastWinner).data.timesActive++
     }
-    io.lastWinner = closestId
+    state.lastWinner = closestId
   }
   
-  io.lastInput.set(input)
+  state.lastInput.set(input)
   
   /*if(iteration %200 === 0){
     console.log('avg error', io.totalError / 200)

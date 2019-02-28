@@ -1,106 +1,97 @@
 {
-  "control": {
-    "running": false,
-    "resetting": false
-  },
   "blockInstances": [
     {
-      "id": "printer-dynamics-iFtno5mBV",
-      "type": "printer-dynamics",
+      "id": "printer-dynamics",
       "codeExpanded": false,
       "memberOverrides": {
-        "0da-BfSTQ": {
+        "position": {
           "value": "position"
         },
-        "cQsVE1AW1": {
+        "motion": {
           "value": "motion"
         },
-        "DDuPLdxb0": {
+        "history": {
           "value": "history"
         }
       }
     },
     {
-      "id": "graph-uU5zUBV8L",
-      "type": "graph",
+      "id": "graph",
       "codeExpanded": false,
       "memberOverrides": {
-        "MT-CMzdN-": {
+        "graph": {
           "value": "graph"
         },
-        "QC2MApAw0": {
+        "input": {
           "value": "position"
         },
-        "btIMrQnGk": {
+        "motion": {
           "value": "motion"
         },
-        "WIXbs5WWA": {
+        "lastWinner": {
           "value": "lastWinner"
         },
-        "b81S-Cpg_": {
+        "transformVectors": {
           "value": "transformVectors"
         },
-        "Tyw1BXPgF": {
+        "lastError": {
           "value": "currentError"
         }
       }
     },
     {
-      "id": "rl-discrete-d2GSKezKY",
-      "type": "rl-discrete",
+      "id": "rl-discrete",
       "codeExpanded": true,
       "memberOverrides": {
-        "nu8TggbJ0": {
+        "motion": {
           "value": "motion"
         },
-        "fEqh13IxN": {
+        "graph": {
           "value": "graph"
         },
-        "urtTyQYq7": {
+        "input": {
           "value": "position"
         },
-        "_AwqXPRVo": {
+        "randomMove": {
           "value": "randomMove"
         },
-        "xvrFmrKAV": {
+        "moveVector": {
           "value": "moveVector"
         },
-        "COfMyblbf": {
+        "randomTargets": {
           "value": "randomTargets"
         },
-        "3aP4yKIj7": {
+        "randomChoice": {
           "value": "randomChoice"
         },
-        "DLfrcU5Jf": {
+        "mode": {
           "value": "mode"
         },
-        "dgh51dkQ4": {
+        "globalTarget": {
           "value": "globalTarget"
         }
       }
     },
     {
-      "id": "printer-bot-KrvFlOV13",
-      "type": "printer-bot",
+      "id": "printer-bot",
       "codeExpanded": false,
       "memberOverrides": {
-        "eYj-O4lQm": {
+        "position": {
           "value": "position"
         },
-        "TPxIgHGRL": {
+        "motion": {
           "value": "motion"
         },
-        "pDmYXqqxJ": {
+        "history": {
           "value": "history"
         }
       }
     },
     {
-      "id": "graph-renderer-2d-Y_1h-7eXD",
-      "type": "graph-renderer-2d",
+      "id": "graph-renderer-2d",
       "codeExpanded": false,
       "memberOverrides": {
-        "fRS7-fMvW": {
+        "graph": {
           "value": "graph"
         }
       }

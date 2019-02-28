@@ -1,14 +1,14 @@
 import { random } from 'lodash'
 
-export const run = (state, { io }) => {
-  io.position = [random(0, 1, true), random(0, 1, true)]
+export const run = ({ state }) => {
+  state.position = [random(0, 1, true), random(0, 1, true)]
   
-  io.history = []
-  io.historySize = 50
+  state.history = []
+  state.historySize = 50
 }
 
-export const update = (state, { io }) => {
-  const { position, motion, history, historySize } = io
+export const update = ({ state }) => {
+  const { position, motion, history, historySize } = state
   const stepSize = 0.02
   // take the actuator values and update the system
   position[0] += motion[0] * stepSize

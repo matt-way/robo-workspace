@@ -1,15 +1,15 @@
-export const run = (state, { io, domRoot }) => {
-	io.canvas = document.createElement('canvas')
-  io.canvas.style.border = '1px solid black'
-  io.canvas.style.margin = '10px'
-  io.ctx = io.canvas.getContext("2d")
-  io.canvas.width = 300
-  io.canvas.height = 300
-  domRoot.appendChild(io.canvas)
+export const run = ({ state, output }) => {
+	state.canvas = document.createElement('canvas')
+  state.canvas.style.border = '1px solid black'
+  state.canvas.style.margin = '10px'
+  state.ctx = state.canvas.getContext("2d")
+  state.canvas.width = 300
+  state.canvas.height = 300
+  output.appendChild(state.canvas)
 }
 
-export const update = (state, { io }) => {
-  const { canvas, ctx, graph } = io
+export const update = ({ state }) => {
+  const { canvas, ctx, graph } = state
   const size = 4
   const half = Math.floor(size / 2)
   
@@ -21,7 +21,7 @@ export const update = (state, { io }) => {
     const sy = feature[1] * canvas.height
     
     // draw the links
-    /*var avgIncidence = 0    
+    /*var avgIncidence = 0  
     graph.forEachLinkedNode(node.id, function(linkedNode, link){
       avgIncidence += link.data.incidence
     })
