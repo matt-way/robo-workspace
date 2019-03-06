@@ -1,5 +1,8 @@
 import { random } from 'lodash'
 import path from 'ngraph.path'
+import ndarray from 'ndarray'
+import ops from 'ndarray-ops'
+import distance from 'ndarray-distance'
 
 export const run = ({ state }) => {
   state.motion = [0.5, 0.5]
@@ -8,26 +11,23 @@ export const run = ({ state }) => {
   state.pathFinder = path.aStar(state.graph, {
     oriented: false
   })
-  state.moveVector = new Float64Array(2)
+  state.moveVector = ndarray(new Float64Array(2))
   state.randomMove = true
 
-  state.randomTargets = [
-    new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2)
-    /*new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2),
-    new Float64Array(2)*/
-  ]
+  state.randomTargets = []
+  for (var i = 0; i < 5; i++) {
+    state.randomTargets.push(ndarray(new Float64Array(2)))
+  }
 
   state.stagnantCount = 0
   state.lastGraphSize = state.graph.getNodesCount()
   state.currentIndex = -1
   state.mode = 'explore'
+}
+
+const normalise = (arr, len = 1) => {
+  const mag = ops.norm2(arr) / len
+  ops.divseq(arr, mag)
 }
 
 export const update = ({ state, iteration }) => {
@@ -54,19 +54,21 @@ export const update = ({ state, iteration }) => {
       const tLoc = node.data.feature
 
       // work out the desired vector from where we are to the local target
-      moveVector.fill(0)
+      const mv = moveVector.data
+      mv.fill(0)
       for (var d = 0; d < input.length; d++) {
-        moveVector[d] = tLoc[d] - input[d]
+        mv[d] = tLoc[d] - input[d]
       }
       // scale the vector to the required speed length
-      moveVector.normalise(speed)
+      normalise(moveVector, speed)
       state.randomMove = false
       // set the next output
-      motion.fill(0)
+      const mo = motion
+      mo.fill(0)
       for (var i = 0; i < state.transformVectors.length; i++) {
         const f = state.transformVectors[i]
-        motion[i] += moveVector[0] * f[0]
-        motion[i] += moveVector[1] * f[1]
+        mo[i] += mv[0] * f[0]
+        mo[i] += mv[1] * f[1]
       }
     }
 
@@ -86,31 +88,31 @@ export const update = ({ state, iteration }) => {
     }
 
     if (state.lastWinner !== state.currentIndex) {
-      const tempPos = new Float64Array(2)
+      const tempPos = ndarray(new Float64Array(2))
       var bestVector = state.randomTargets[0]
       var bestDistance = 0
 
       // generate set of random target vectors
       const curNode = graph.getNode(state.lastWinner)
       state.randomTargets.forEach(t => {
-        t[0] = random(-1, 1, true)
-        t[1] = random(-1, 1, true)
-        t.normalise(speed)
+        t.data[0] = random(-1, 1, true)
+        t.data[1] = random(-1, 1, true)
+        normalise(t, speed)
 
         var minDistance = Number.MAX_VALUE
         var idHash = {}
         graph.forEachLinkedNode(state.lastWinner, function(linkedNode, link) {
           if (!idHash[linkedNode.id]) {
             //
-            tempPos.set(linkedNode.data.feature)
-            tempPos.subtract(curNode.data.feature)
-            tempPos.normalise(speed)
+            ops.assign(tempPos, linkedNode.data.feature)
+            ops.subeq(tempPos, curNode.data.feature)
+            normalise(tempPos, speed)
 
             //tempPos.set(input)
             //tempPos.set(curNode.data.feature)
             //tempPos.add(t)
             //const dist = tempPos.distance(linkedNode.data.feature)
-            const dist = t.distance(tempPos)
+            const dist = distance(t, tempPos)
             if (dist < minDistance) {
               minDistance = dist
             }
@@ -125,14 +127,14 @@ export const update = ({ state, iteration }) => {
       })
 
       state.randomChoice = bestVector
-      moveVector.set(bestVector)
+      ops.assign(moveVector, bestVector)
 
       // generate output based on the target vector
       motion.fill(0)
       for (var i = 0; i < state.transformVectors.length; i++) {
         const f = state.transformVectors[i]
-        motion[i] += moveVector[0] * f[0]
-        motion[i] += moveVector[1] * f[1]
+        motion[i] += moveVector.data[0] * f[0]
+        motion[i] += moveVector.data[1] * f[1]
       }
 
       state.currentIndex = state.lastWinner
