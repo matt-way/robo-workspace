@@ -51,7 +51,7 @@ export const update = ({ state, iteration }) => {
           ? targetPath[targetPath.length - 2]
           : targetPath[0]
       const node = graph.getNode(state.localGoalIndex.id)
-      const tLoc = node.data.feature
+      const tLoc = node.data.feature.data
 
       // work out the desired vector from where we are to the local target
       const mv = moveVector.data

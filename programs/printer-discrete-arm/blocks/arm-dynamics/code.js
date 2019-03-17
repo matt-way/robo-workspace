@@ -17,5 +17,5 @@ export const update = ({ state }) => {
   position[1] = Math.min(1, Math.max(0, position[1]))
   
   history.push([position[0], position[1]])
-  if(history.length > historySize){ history.shift() }
+  if(history.length > historySize){ history.shift() }  
 }

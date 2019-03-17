@@ -16,7 +16,7 @@ export const update = ({ state }) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   
   graph.forEachNode(function(node){
-    const { feature } = node.data
+    const feature = node.data.feature.data
     const sx = feature[0] * canvas.width
     const sy = feature[1] * canvas.height
     
@@ -32,7 +32,7 @@ export const update = ({ state }) => {
     graph.forEachLinkedNode(node.id, function(linkedNode, link){
       // only draw useful links      
       //if(link.data.incidence > 0.1 * avgIncidence){
-      	const tFeature = linkedNode.data.feature
+      	const tFeature = linkedNode.data.feature.data
 				const tx = tFeature[0] * canvas.width
       	const ty = tFeature[1] * canvas.height
 	      
@@ -63,7 +63,7 @@ export const update = ({ state }) => {
     if(state.mode === 'explore'){
       
       for(var v=0; v<randomTargets.length; v++){
-        const t = randomTargets[v]
+        const t = randomTargets[v].data
         const vx = t[0] * 10
         const vy = t[1] * 10
 
@@ -74,7 +74,7 @@ export const update = ({ state }) => {
         ctx.stroke()    
       }
 
-      const t = randomChoice
+      const t = randomChoice.data
       if(t){
       	const vx = t[0] * 10
       	const vy = t[1] * 10

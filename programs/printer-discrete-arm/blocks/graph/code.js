@@ -4,7 +4,7 @@ import ndarray from 'ndarray'
 
 const createFeature = pos => {
   const f = ndarray(new Float64Array(pos.length))
-  f.set(pos)
+  f.data.set(pos)
   return f
 }
 
@@ -46,8 +46,8 @@ export const update = ({ state, iteration }) => {
   graph.forEachNode(({ id, data }) => {
     const feature = data.feature
     var dist = 0
-    for (var d = 0; d < feature.length; d++) {
-      dist += (feature[d] - input[d]) ** 2
+    for (var d = 0; d < feature.data.length; d++) {
+      dist += (feature.get(d) - input[d]) ** 2
     }
     dist = Math.sqrt(dist)
     if (dist < minDistance) {
@@ -122,8 +122,9 @@ export const update = ({ state, iteration }) => {
   // learn the feature
   const trueWinner = graph.getNode(closestId)
   const { feature } = trueWinner.data
-  for (var d = 0; d < feature.length; d++) {
-    feature[d] += (input[d] - feature[d]) * learningRate
+  const fd = feature.data
+  for (var d = 0; d < fd.length; d++) {
+    fd[d] += (input[d] - fd[d]) * learningRate
   }
 
   // do edge incrementing
