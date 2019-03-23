@@ -1,17 +1,17 @@
 {
   "source": "code.js",
-  "members": [
+  "inputs": [
     {
       "id": "position",
-      "type": "Link"
+      "type": "link"
     },
     {
       "id": "motion",
-      "type": "Link"
+      "type": "link"
     },
     {
       "id": "history",
-      "type": "Link"
+      "type": "link"
     }
   ]
 }

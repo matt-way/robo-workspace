@@ -1,17 +1,24 @@
 {
   "source": "code.js",
-  "members": [
-    {
-      "id": "position",
-      "type": "Link"
-    },
+  "inputs": [
     {
       "id": "motion",
-      "type": "Link"
+      "type": "link"
+    },
+    {
+      "id": "sssd",
+      "type": "text",
+      "updateOnly": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "position",
+      "description": "The current array of arm position coordinates"
     },
     {
       "id": "history",
-      "type": "Link"
+      "description": "A short history array of previous positions"
     }
   ]
 }

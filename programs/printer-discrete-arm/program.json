@@ -2,121 +2,131 @@
   "blockInstances": [
     {
       "id": "arm-dynamics",
-      "codeExpanded": false,
-      "memberOverrides": {
-        "position": {
-          "value": "position"
-        },
+      "inputValues": {
         "motion": {
-          "value": "motion"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "motion"
+          }
         },
-        "history": {
-          "value": "history"
+        "sss": {
+          "value": "ddd"
         }
       }
     },
     {
       "id": "graph",
-      "codeExpanded": true,
-      "memberOverrides": {
-        "graph": {
-          "value": "graph"
-        },
+      "inputValues": {
         "input": {
-          "value": "position"
+          "value": {
+            "blockId": "arm-dynamics",
+            "key": "position"
+          }
         },
         "motion": {
-          "value": "motion"
-        },
-        "lastWinner": {
-          "value": "lastWinner"
-        },
-        "transformVectors": {
-          "value": "transformVectors"
-        },
-        "lastError": {
-          "value": "currentError"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "motion"
+          }
         }
       }
     },
     {
       "id": "rl-discrete",
-      "codeExpanded": true,
-      "memberOverrides": {
-        "motion": {
-          "value": "motion"
-        },
+      "inputValues": {
         "graph": {
-          "value": "graph"
+          "value": {
+            "blockId": "graph",
+            "key": "graph"
+          }
         },
         "input": {
-          "value": "position"
-        },
-        "randomMove": {
-          "value": "randomMove"
-        },
-        "moveVector": {
-          "value": "moveVector"
-        },
-        "randomTargets": {
-          "value": "randomTargets"
-        },
-        "randomChoice": {
-          "value": "randomChoice"
-        },
-        "mode": {
-          "value": "mode"
-        },
-        "globalTarget": {
-          "value": "globalTarget"
+          "value": {
+            "blockId": "arm-dynamics",
+            "key": "position"
+          }
         },
         "lastWinner": {
-          "value": "lastWinner"
+          "value": {
+            "blockId": "graph",
+            "key": "lastWinner"
+          }
         },
         "transformVectors": {
-          "value": "transformVectors"
+          "value": {
+            "blockId": "graph",
+            "key": "transformVectors"
+          }
         }
       }
     },
     {
       "id": "arm-renderer",
-      "codeExpanded": false,
-      "memberOverrides": {
+      "inputValues": {
         "position": {
-          "value": "position"
+          "value": {
+            "blockId": "arm-dynamics",
+            "key": "position"
+          }
         },
         "motion": {
-          "value": "motion"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "motion"
+          }
         },
         "history": {
-          "value": "history"
+          "value": {
+            "blockId": "arm-dynamics",
+            "key": "history"
+          }
         }
       }
     },
     {
       "id": "graph-renderer-2d",
-      "codeExpanded": true,
-      "memberOverrides": {
+      "inputValues": {
         "graph": {
-          "value": "graph"
+          "value": {
+            "blockId": "graph",
+            "key": "graph"
+          }
         },
         "position": {
-          "value": "position"
+          "value": {
+            "blockId": "arm-dynamics",
+            "key": "position"
+          }
         },
         "randomTargets": {
-          "value": "randomTargets"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "randomTargets"
+          }
         },
         "randomChoice": {
-          "value": "randomChoice"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "randomChoice"
+          }
         },
         "mode": {
-          "value": "mode"
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "mode"
+          }
         },
-        "globalTargets": {
-          "value": "globalTarget"
+        "globalTarget": {
+          "value": {
+            "blockId": "rl-discrete",
+            "key": "globalTarget"
+          }
         },
         "lastWinner": {
-          "value": "lastWinner"
+          "value": {
+            "blockId": "graph",
+            "key": "lastWinner"
+          }
         }
       }
     }

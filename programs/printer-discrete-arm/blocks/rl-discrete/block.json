@@ -1,49 +1,21 @@
 {
   "source": "code.js",
-  "members": [
-    {
-      "id": "motion",
-      "type": "Link"
-    },
+  "inputs": [
     {
       "id": "graph",
-      "type": "Link"
+      "type": "link"
     },
     {
       "id": "input",
-      "type": "Link"
-    },
-    {
-      "id": "randomMove",
-      "type": "Link"
-    },
-    {
-      "id": "moveVector",
-      "type": "Link"
-    },
-    {
-      "id": "randomTargets",
-      "type": "Link"
-    },
-    {
-      "id": "randomChoice",
-      "type": "Link"
-    },
-    {
-      "id": "mode",
-      "type": "Link"
-    },
-    {
-      "id": "globalTarget",
-      "type": "Link"
+      "type": "link"
     },
     {
       "id": "lastWinner",
-      "type": "Link"
+      "type": "link"
     },
     {
       "id": "transformVectors",
-      "type": "Link"
+      "type": "link"
     }
   ]
 }
