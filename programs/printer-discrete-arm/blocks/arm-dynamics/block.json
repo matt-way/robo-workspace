@@ -4,11 +4,6 @@
     {
       "id": "motion",
       "type": "link"
-    },
-    {
-      "id": "sssd",
-      "type": "text",
-      "updateOnly": true
     }
   ],
   "outputs": [
