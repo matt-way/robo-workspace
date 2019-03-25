@@ -1,0 +1,39 @@
+{
+  "blockInstances": [
+    {
+      "id": "johnny-five",
+      "inputValues": {
+        "base": {
+          "value": "0.52"
+        },
+        "shoulder": {
+          "value": "0.42"
+        },
+        "gripper": {
+          "value": "0.32"
+        },
+        "wristRot": {
+          "value": "0.48"
+        },
+        "wristVert": {
+          "value": "0.18"
+        },
+        "elbow": {
+          "value": "0.28"
+        }
+      }
+    },
+    {
+      "id": "cycler",
+      "inputValues": {
+        "test": {
+          "value": {
+            "key": "shoulder",
+            "blockId": "johnny-five"
+          }
+        }
+      },
+      "disabled": true
+    }
+  ]
+}

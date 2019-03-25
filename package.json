@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/matt-way/robo-workspace#readme",
   "dependencies": {
+    "johnny-five": "^1.0.0",
     "ndarray": "^1.0.18",
     "ndarray-distance": "^1.0.0",
     "ndarray-ops": "^1.2.2",
     "ngraph.graph": "0.0.15",
-    "ngraph.path": "^1.0.3"
+    "ngraph.path": "^1.1.0",
+    "require-rebuild": "^1.2.8"
   }
 }
